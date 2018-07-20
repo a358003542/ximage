@@ -10,7 +10,7 @@ def long_description():
         with codecs.open('README.md', encoding='utf-8') as f:
             return f.read()
     except Exception as e: # 免得因为这个出现安装错误
-        return "the python extend libary."
+        return "a simple image process tools."
 
 
 REQUIREMENTS = []
@@ -18,7 +18,7 @@ REQUIREMENTS = []
 
 setup(
     name='ximage',
-    version= '0.1.0',
+    version= '0.1.1',
     description='a simple image process tools.',
     long_description=long_description(),
     url = 'https://github.com/a358003542/ximage',

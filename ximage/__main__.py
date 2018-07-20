@@ -18,9 +18,9 @@ def print_version(ctx, param, value):
 @click.option('--version', is_flag=True, callback=print_version,
     expose_value=False, is_eager=True,help="print this software version")
 def main():
-    '''ximage --version
+    """ximage --version
     please remember here what will do if you call the subcommand,so here generally is doing nothing.
-    '''
+    """
     pass
 
 
@@ -56,7 +56,9 @@ def resize(inputimgs,width,height,outputdir,outputname):
 @click.argument('inputimgs', type=click.Path(), nargs=-1, required=True)
 @click.option('--dpi', default=150, type=int, help="the output image dpi")
 @click.option('--format', default="png", help="the output image format")
-def convert(inputimgs, dpi, format):
+@click.option('--outputdir', default="", help="the image output dir")
+@click.option('--outputname', default="", help="the image output name")
+def convert(inputimgs, dpi, format, outputdir, outputname):
     """
     support image format: \n
       - pillow : png jpg gif eps tiff bmp ppm \n
@@ -66,7 +68,7 @@ def convert(inputimgs, dpi, format):
     """
 
     for inputimg in inputimgs:
-        outputimg = convert_image(inputimg, outputformat=format, dpi=dpi)
+        outputimg = convert_image(inputimg, outputformat=format, dpi=dpi, outputdir=outputdir, outputname=outputname)
 
         if outputimg:
             click.echo("process: {} done.".format(inputimg))
