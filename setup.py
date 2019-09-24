@@ -13,12 +13,12 @@ def long_description():
         return "a simple image process tools."
 
 
-REQUIREMENTS = []
+REQUIREMENTS = ['pillow','click']
 
 
 setup(
     name='ximage',
-    version= '0.1.1',
+    version= '0.1.2',
     description='a simple image process tools.',
     long_description=long_description(),
     url = 'https://github.com/a358003542/ximage',

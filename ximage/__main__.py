@@ -54,8 +54,8 @@ def resize(inputimgs,width,height,outputdir,outputname):
 
 @main.command()
 @click.argument('inputimgs', type=click.Path(), nargs=-1, required=True)
-@click.option('--dpi', default=150, type=int, help="the output image dpi")
-@click.option('--format', default="png", help="the output image format")
+@click.option('--dpi', default=150, type=int, help="the output image dpi, default 150.")
+@click.option('--format', default="png", help="the output image format, default png.")
 @click.option('--outputdir', default="", help="the image output dir")
 @click.option('--outputname', default="", help="the image output name")
 def convert(inputimgs, dpi, format, outputdir, outputname):
