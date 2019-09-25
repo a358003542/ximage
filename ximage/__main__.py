@@ -63,8 +63,7 @@ def convert(inputimgs, dpi, format, outputdir, outputname):
     support image format: \n
       - pillow : png jpg gif eps tiff bmp ppm \n
       - inkscape: svg ->pdf  png ps eps \n
-      - pdftoppm: pdf ->  png \n
-      - pdf2svg: pdf ->  svg
+      - pdftocairo: pdf ->  png jpeg ps eps svg\n
     """
 
     for inputimg in inputimgs:

@@ -26,12 +26,12 @@ def mkdirs(path, mode=0o777):
             raise IOError
 
 
-def convert_image(inputimg, outputformat='png', dpi=150, outputdir='', outputname=''):
+def convert_image(inputimg, outputformat='png', dpi=150, outputdir='',
+                  outputname=''):
     """
     本函数若图片转换成功则返回目标目标在系统中的路径，否则返回None。
     文件basedir路径默认和inputimg相同，若有更进一步的需求，则考虑
     """
-
     pillow_support = ['png', 'jpg', 'jpeg', 'gif', 'tiff', 'bmp', 'ppm']
 
     inputimg = os.path.abspath(inputimg)
@@ -39,7 +39,6 @@ def convert_image(inputimg, outputformat='png', dpi=150, outputdir='', outputnam
     imgname, imgext = os.path.splitext(os.path.basename(inputimg))
     if not os.path.exists(os.path.abspath(outputdir)):
         mkdirs(outputdir)
-
 
     # pillow
     if imgext[1:] in pillow_support and outputformat in pillow_support:
@@ -56,12 +55,16 @@ def convert_image(inputimg, outputformat='png', dpi=150, outputdir='', outputnam
             logger.info('{0} saved.'.format(outputimg))
             return outputimg  # outputfile sometime it is useful.
         except FileNotFoundError as e:
-            logger.error('process image: {inputimg} raise FileNotFoundError'.format(inputimg=inputimg))
+            logger.error(
+                'process image: {inputimg} raise FileNotFoundError'.format(
+                    inputimg=inputimg))
         except IOError:
-            logger.error('process image: {inputimg} raise IOError'.format(inputimg=inputimg))
+            logger.error('process image: {inputimg} raise IOError'.format(
+                inputimg=inputimg))
 
     # inkscape
-    elif imgext[1:] in ['svg', 'svgz'] and outputformat in ['png', 'pdf', 'ps', 'eps']:
+    elif imgext[1:] in ['svg', 'svgz'] and outputformat in ['png', 'pdf', 'ps',
+                                                            'eps']:
         if not outputname:
             outputname = imgname + '.' + outputformat
         outputimg = os.path.join(os.path.abspath(outputdir), outputname)
@@ -81,7 +84,8 @@ def convert_image(inputimg, outputformat='png', dpi=150, outputdir='', outputnam
         try:
             if shutil.which('inkscape'):
                 subprocess.check_call(['inkscape', '-zC',
-                                       '-f', inputimg, '-{0}'.format(outflag), outputimg, '-d', str(dpi)])
+                                       '-f', inputimg, '-{0}'.format(outflag),
+                                       outputimg, '-d', str(dpi)])
                 return outputimg  # only retcode is zero
             else:
                 raise CommandNotFound
@@ -89,8 +93,9 @@ def convert_image(inputimg, outputformat='png', dpi=150, outputdir='', outputnam
             logger.error('inkscape commond not found.')
 
 
-    # pdftoppm
-    elif imgext[1:] in ['pdf'] and outputformat in ['png']:
+    # pdftocairo
+    elif imgext[1:] in ['pdf'] and outputformat in ['png', 'jpeg', 'ps', 'eps',
+                                                    'svg']:
         if not outputname:
             outputname = imgname
         outputimg = os.path.join(os.path.abspath(outputdir), outputname)
@@ -99,34 +104,26 @@ def convert_image(inputimg, outputformat='png', dpi=150, outputdir='', outputnam
             raise FileExistsError
 
         try:
-            if shutil.which('pdftoppm'):
-                subprocess.check_call(['pdftoppm', '-png', '-singlefile', '-r', str(dpi), inputimg, outputimg])
+            if shutil.which('pdftocairo'):
+                map_dict = {i: '-{}'.format(i) for i in
+                            ['png', 'pdf', 'ps', 'eps', 'jpeg', 'svg']}
+
+                outflag = map_dict[outputformat]
+
+                if outputformat in ['png', 'jpeg']:
+                    subprocess.check_call(
+                        ['pdftocairo', outflag, '-singlefile', '-r', str(dpi),
+                         inputimg, outputimg])
+                else:
+                    outputname = imgname + '.' + outputformat
+                    subprocess.check_call(
+                        ['pdftocairo', outflag, '-r', str(dpi), inputimg,
+                         outputname])
                 return outputimg  # only retcode is zero
             else:
                 raise CommandNotFound
         except CommandNotFound as e:
-            logger.error('pdftoppm commond not found.')
-
-
-    # pdf2svg
-    elif imgext[1:] in ['pdf'] and outputformat in ['svg']:
-        if not outputname:
-            outputname = imgname + '.' + outputformat
-        outputimg = os.path.join(os.path.abspath(outputdir), outputname)
-
-        if inputimg == outputimg:
-            raise FileExistsError
-
-        try:
-            if shutil.which('pdf2svg'):
-                subprocess.check_call(['pdf2svg', inputimg, outputimg])
-                return outputimg  # only retcode is zero
-            else:
-                raise CommandNotFound
-        except CommandNotFound as e:
-            logger.error('pdf2svg commond not found.')
-    else:
-        raise NotImplementedError
+            logger.error('pdftocairo commond not found.')
 
 
 @click.command()
@@ -140,12 +137,12 @@ def main(inputimgs, dpi, format, outputdir, outputname):
     support image format: \n
       - pillow : png jpg gif eps tiff bmp ppm \n
       - inkscape: svg ->pdf  png ps eps \n
-      - pdftoppm: pdf ->  png \n
-      - pdf2svg: pdf ->  svg
+      - pdftocairo: pdf ->  png jpeg ps eps svg\n
     """
 
     for inputimg in inputimgs:
-        outputimg = convert_image(inputimg, outputformat=format, dpi=dpi, outputdir=outputdir, outputname=outputname)
+        outputimg = convert_image(inputimg, outputformat=format, dpi=dpi,
+                                  outputdir=outputdir, outputname=outputname)
 
         if outputimg:
             click.echo("process: {} done.".format(inputimg))

@@ -5,6 +5,11 @@
 pip install ximage
 ```
 
+## changelog
+### 0.2.0
+1. change use pdf2ppm to pdftocairo, it can convert pdf to png|jpeg|svg etc.
+2. the pip installation will make sure you have installed the pillow module.
+3. the pip installation in windows will check is there have pdftocairo.exe, if can not found , program will copy the pdftocairo.exe to the python scripts folder.
 
 
 ## resize image
@@ -50,9 +55,7 @@ Usage: ximage convert [OPTIONS] INPUTIMGS...
 
     - inkscape: svg ->pdf  png ps eps
 
-    - pdftoppm: pdf ->  png
-
-    - pdf2svg: pdf ->  svg
+    - pdftocairo: pdf ->  png jpeg ps eps svg
 
 Options:
   --dpi INTEGER  the output image dpi
@@ -60,8 +63,3 @@ Options:
   --help         Show this message and exit.
 ```
 
-**Requirements:** 
-
-- If you have **pillow**  module, then you can convert thats image format: png jpg gif tiff bmp ppm
-- If you have install **pdftoppm** command which is come from the （if you in windows and you have installed the texlive ）`C:\texlive\2018\bin\win32\pdftoppm.exe`
-- If you have install **Inkscape** then you can convert svg to pdf.
