@@ -1,25 +1,26 @@
-==============
 ximage
+==============
 
 
--------
 useage
-
+-------
 ::
     pip install ximage
 
------------
-changelog
 
-~~~~~~~~~~~~~~
+changelog
+-----------
+
 0.2.0
+~~~~~~~~~~~~~~
 
 1. change use pdf2ppm to pdftocairo, it can convert pdf to png jpeg svg  etc.
 2. the pip installation will make sure you have installed the pillow module.
 3. the pip installation in windows will check is there have pdftocairo.exe, if can not found , program will copy the pdftocairo.exe to the python scripts folder.
 
-================
+
 resize image
+================
 
 ::
     ximage resize --help
@@ -38,9 +39,9 @@ resize image
       --help             Show this message and exit.
 
 
-========================
-convert image format
 
+convert image format
+========================
 
 ::
     ximage convert --help
