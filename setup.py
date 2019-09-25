@@ -12,7 +12,7 @@ is_windows = 'win32' == sys.platform.lower()
 
 def long_description():
     try:
-        with codecs.open('README.md', encoding='utf-8') as f:
+        with codecs.open('README.rst', encoding='utf-8') as f:
             return f.read()
     except Exception as e:  # 免得因为这个出现安装错误
         return "a simple image process tools."

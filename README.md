@@ -13,21 +13,13 @@ pip install ximage
 
 
 ## resize image
-need the pillow module.
-
-```
-ximage resize ...
-```
 
 ```
 Usage: ximage resize [OPTIONS] INPUTIMGS...
 
   resize your image, width height you must give one default is zero. out
-  :param inputimgs: 
-  :param width: 
-  :param height: 
-  :param outputdir: 
-  :param outputname:
+  :param inputimgs: :param width: :param height: :param outputdir: :param
+  outputname: :return:
 
 Options:
   --width INTEGER    the output image width
@@ -39,12 +31,7 @@ Options:
 ```
 
 ## convert image format
-If you in windows , please install the inkscape and gimp software.
 
-
-```
-ximage convert ...
-```
 
 ```
 Usage: ximage convert [OPTIONS] INPUTIMGS...
@@ -58,8 +45,10 @@ Usage: ximage convert [OPTIONS] INPUTIMGS...
     - pdftocairo: pdf ->  png jpeg ps eps svg
 
 Options:
-  --dpi INTEGER  the output image dpi
-  --format TEXT  the output image format
-  --help         Show this message and exit.
+  --dpi INTEGER      the output image dpi, default 150.
+  --format TEXT      the output image format, default png.
+  --outputdir TEXT   the image output dir
+  --outputname TEXT  the image output name
+  --help             Show this message and exit.
 ```
 
