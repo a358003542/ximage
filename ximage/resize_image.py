@@ -35,6 +35,19 @@ def resize_image(inputimg, width=0, height=0, outputdir='', outputname=''):
     """
     imgname, imgext = os.path.splitext(os.path.basename(inputimg))
 
+    if not os.path.exists(os.path.abspath(outputdir)):
+        mkdirs(outputdir)
+
+    if not outputname:
+        outputname = imgname + '_resized' + imgext
+    else:
+        output_imgname, ext = os.path.splitext(outputname)
+        if not ext:
+            outputname = output_imgname + '_resized' + imgext
+        elif ext != imgext:
+            raise Exception(
+                'outputname ext is not the same as the intput image')
+
     try:
         im = Image.open(os.path.abspath(inputimg))
         ori_w, ori_h = im.size
@@ -44,29 +57,26 @@ def resize_image(inputimg, width=0, height=0, outputdir='', outputname=''):
         elif width is not 0 and height is 0:
             height = ori_h
         elif width is 0 and height is 0:
-            logger.error('you must give one value , height or width')
+            click.echo('you must give one value , height or width', err=True)
             raise IOError
 
         if width > ori_w:
-            logger.warning('the target width is larger than origin, i will use the origin one')
+            logger.warning(
+                'the target width is larger than origin, i will use the origin one')
             width = ori_w
         elif height > ori_h:
-            logger.warning('the target height is larger than origin, i will use the origin one')
+            logger.warning(
+                'the target height is larger than origin, i will use the origin one')
             height = ori_h
 
         im.thumbnail((width, height), Image.ANTIALIAS)
 
         logger.info(os.path.abspath(inputimg))
 
-        if not os.path.exists(os.path.abspath(outputdir)):
-            mkdirs(outputdir)
-        if not outputname:
-            outputname = imgname + '_resized' + imgext
-
         outputimg = os.path.join(os.path.abspath(outputdir), outputname)
 
         im.save(outputimg)
-        logger.info('{0} saved.'.format(outputimg))
+        click.echo('{0} saved.'.format(outputimg))
         return outputimg
     except IOError:
         logging.error('IOError, I can not resize {}'.format(inputimg))
@@ -91,7 +101,8 @@ def main(inputimgs, width, height, outputdir, outputname):
     """
 
     for inputimg in inputimgs:
-        outputimg = resize_image(inputimg, width=width, height=height, outputdir=outputdir, outputname=outputname)
+        outputimg = resize_image(inputimg, width=width, height=height,
+                                 outputdir=outputdir, outputname=outputname)
 
         if outputimg:
             click.echo("process: {} done.".format(inputimg))

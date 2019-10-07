@@ -4,8 +4,9 @@
 import click
 from ximage import __version__
 
-from ximage.resize.resize_image import resize_image
-from ximage.convert.convert_image import convert_image
+from ximage.resize_image import resize_image
+from ximage.convert_image import convert_image
+
 
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
@@ -16,7 +17,8 @@ def print_version(ctx, param, value):
 
 @click.group()
 @click.option('--version', is_flag=True, callback=print_version,
-    expose_value=False, is_eager=True,help="print this software version")
+              expose_value=False, is_eager=True,
+              help="print this software version")
 def main():
     """ximage --version
     please remember here what will do if you call the subcommand,so here generally is doing nothing.
@@ -24,14 +26,13 @@ def main():
     pass
 
 
-
 @main.command()
-@click.argument('inputimgs',type=click.Path(),nargs=-1,required=True)
-@click.option('--width',default=0,type=int,help="the output image width")
-@click.option('--height',default=0,help="the output image height")
-@click.option('--outputdir',default="",help="the image output dir")
-@click.option('--outputname',default="",help="the image output name")
-def resize(inputimgs,width,height,outputdir,outputname):
+@click.argument('inputimgs', type=click.Path(), nargs=-1, required=True)
+@click.option('--width', default=0, type=int, help="the output image width")
+@click.option('--height', default=0, help="the output image height")
+@click.option('--outputdir', default="", help="the image output dir")
+@click.option('--outputname', default="", help="the image output name")
+def resize(inputimgs, width, height, outputdir, outputname):
     """
     resize your image, width height you must give one default is zero.
     out
@@ -44,7 +45,8 @@ def resize(inputimgs,width,height,outputdir,outputname):
     """
 
     for inputimg in inputimgs:
-        outputimg = resize_image(inputimg,width=width,height=height,outputdir=outputdir,outputname=outputname)
+        outputimg = resize_image(inputimg, width=width, height=height,
+                                 outputdir=outputdir, outputname=outputname)
 
         if outputimg:
             click.echo("process: {} done.".format(inputimg))
@@ -54,25 +56,34 @@ def resize(inputimgs,width,height,outputdir,outputname):
 
 @main.command()
 @click.argument('inputimgs', type=click.Path(), nargs=-1, required=True)
-@click.option('--dpi', default=150, type=int, help="the output image dpi, default 150.")
-@click.option('--format', default="png", help="the output image format, default png.")
+@click.option('--dpi', default=150, type=int, help="the output image dpi")
+@click.option('--format', default="png", help="the output image format")
 @click.option('--outputdir', default="", help="the image output dir")
 @click.option('--outputname', default="", help="the image output name")
-def convert(inputimgs, dpi, format, outputdir, outputname):
+@click.option('--pdftocairo-fix-encoding', default="gb18030",
+              help="In Windows,the pdftocairo fix encoding")
+@click.option('--overwrite', default=True,
+              help='if output file exist, will be overwrite it?',
+              type=click.BOOL)
+def convert(inputimgs, dpi, format, outputdir, outputname,
+            pdftocairo_fix_encoding, overwrite):
     """
     support image format: \n
       - pillow : png jpg gif eps tiff bmp ppm \n
       - inkscape: svg ->pdf  png ps eps \n
       - pdftocairo: pdf ->  png jpeg ps eps svg\n
     """
-
     for inputimg in inputimgs:
-        outputimg = convert_image(inputimg, outputformat=format, dpi=dpi, outputdir=outputdir, outputname=outputname)
+        outputimg = convert_image(inputimg, outputformat=format, dpi=dpi,
+                                  outputdir=outputdir, outputname=outputname,
+                                  pdftocairo_fix_encoding=pdftocairo_fix_encoding,
+                                  overwrite=overwrite)
 
         if outputimg:
             click.echo("process: {} done.".format(inputimg))
         else:
             click.echo("process: {} failed.".format(inputimg))
+
 
 if __name__ == '__main__':
     main()

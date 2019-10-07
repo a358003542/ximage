@@ -6,6 +6,12 @@ pip install ximage
 ```
 
 ## changelog
+### 0.2.3
+1. fix pdftocairo.exe in windows can not handle the chinese problem. 
+   中文用户经过测试需要加上如下encoding参数：`--pdftocairo-fix-encoding=gb18030` 
+
+
+
 ### 0.2.0
 1. change use pdf2ppm to pdftocairo, it can convert pdf to png|jpeg|svg etc.
 2. the pip installation will make sure you have installed the pillow module.
