@@ -9,7 +9,7 @@ import subprocess
 import shutil
 import click
 from PIL import Image
-import random
+
 from ximage.exceptions import CommandNotFound
 
 logger = logging.getLogger(__name__)
@@ -139,7 +139,7 @@ def convert_image(inputimg, outputformat='png', dpi=150, outputdir='',
         if not outputimg:
             return None
 
-        currdir = os.curdir
+        currdir = os.path.abspath(os.curdir)
         if outputdir:
             os.chdir(outputdir)
 
