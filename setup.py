@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*-coding:utf-8-*-
 
-import codecs
+import os
 import shutil
 import sys
 
@@ -10,12 +10,9 @@ from setuptools import setup, find_packages
 is_windows = 'win32' == sys.platform.lower()
 
 
-def long_description():
-    try:
-        with codecs.open('README.rst', encoding='utf-8') as f:
-            return f.read()
-    except Exception as e:  # 免得因为这个出现安装错误
-        return "a simple image process tools."
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 
 REQUIREMENTS = ['pillow', 'click']
@@ -32,7 +29,8 @@ setup(
     name='ximage',
     version='0.2.4',
     description='a simple image process tool.',
-    long_description=long_description(),
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/a358003542/ximage',
     author='cdwanze',
     author_email='a358003542@gmail.com',

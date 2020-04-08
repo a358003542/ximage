@@ -6,6 +6,9 @@ pip install ximage
 ```
 
 ## changelog
+### 0.2.4
+fix a bug: convert_image output_dir not return correctly.
+
 ### 0.2.3
 1. fix pdftocairo.exe in windows can not handle the chinese problem. 
    中文用户经过测试需要加上如下encoding参数：`--pdftocairo-fix-encoding=gb18030` 
