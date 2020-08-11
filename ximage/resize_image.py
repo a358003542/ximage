@@ -25,13 +25,8 @@ def mkdirs(path, mode=0o777):
 
 def resize_image(inputimg, width=0, height=0, outputdir='', outputname=''):
     """
-    width和height如果只指定一个则另外一个不考虑，如果两个都指定则常规执行。如果给定宽度过高则可能不resize
-    :param inputimg:
-    :param width:
-    :param height:
-    :param outputdir:
-    :param outputname:
-    :return:
+    width and height if you only specify one parameter of them, then the another will dismissed.
+    if you given a overhigh height, then there maybe output a image not resize at all.
     """
     imgname, imgext = os.path.splitext(os.path.basename(inputimg))
 
@@ -91,13 +86,6 @@ def resize_image(inputimg, width=0, height=0, outputdir='', outputname=''):
 def main(inputimgs, width, height, outputdir, outputname):
     """
     resize your image, width height you must give one default is zero.
-    out
-    :param inputimgs:
-    :param width:
-    :param height:
-    :param outputdir:
-    :param outputname:
-    :return:
     """
 
     for inputimg in inputimgs:

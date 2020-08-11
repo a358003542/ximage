@@ -11,7 +11,7 @@ from ximage.convert_image import convert_image
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.echo('Version {}'.format(__version__))
+    click.echo('ximage version {}'.format(__version__))
     ctx.exit()
 
 
@@ -20,8 +20,8 @@ def print_version(ctx, param, value):
               expose_value=False, is_eager=True,
               help="print this software version")
 def main():
-    """ximage --version
-    please remember here what will do if you call the subcommand,so here generally is doing nothing.
+    """
+    ximage --version
     """
     pass
 
@@ -35,13 +35,6 @@ def main():
 def resize(inputimgs, width, height, outputdir, outputname):
     """
     resize your image, width height you must give one default is zero.
-    out
-    :param inputimgs:
-    :param width:
-    :param height:
-    :param outputdir:
-    :param outputname:
-    :return:
     """
 
     for inputimg in inputimgs:
@@ -69,9 +62,9 @@ def convert(inputimgs, dpi, format, outputdir, outputname,
             pdftocairo_fix_encoding, overwrite):
     """
     support image format: \n
-      - pillow : png jpg gif eps tiff bmp ppm \n
-      - inkscape: svg ->pdf  png ps eps \n
-      - pdftocairo: pdf ->  png jpeg ps eps svg\n
+      - pillow : png <-> jpg <-> gif <-> eps <-> tiff <-> bmp <-> ppm \n
+      - inkscape: svg -> pdf | png | ps | eps \n
+      - pdftocairo: pdf -> png | jpeg | ps | eps | svg \n
     """
     for inputimg in inputimgs:
         outputimg = convert_image(inputimg, outputformat=format, dpi=dpi,

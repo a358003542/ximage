@@ -206,9 +206,9 @@ def main(inputimgs, dpi, format, outputdir, outputname,
          pdftocairo_fix_encoding, overwrite):
     """
     support image format: \n
-      - pillow : png jpg gif eps tiff bmp ppm \n
-      - inkscape: svg ->pdf  png ps eps \n
-      - pdftocairo: pdf ->  png jpeg ps eps svg\n
+      - pillow : png <-> jpg <-> gif <-> eps <-> tiff <-> bmp <-> ppm \n
+      - inkscape: svg -> pdf | png | ps | eps \n
+      - pdftocairo: pdf -> png | jpeg | ps | eps | svg \n
     """
 
     for inputimg in inputimgs:
