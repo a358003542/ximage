@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*-coding:utf-8-*-
 
+import logging
 import click
 from ximage import __version__
 
@@ -15,10 +16,20 @@ def print_version(ctx, param, value):
     ctx.exit()
 
 
+def enable_debug(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+
+    logging.basicConfig(level=logging.DEBUG)
+
+
 @click.group()
 @click.option('--version', is_flag=True, callback=print_version,
               expose_value=False, is_eager=True,
               help="print this software version")
+@click.option('-V', '--verbose', is_flag=True, is_eager=True,
+              callback=enable_debug, expose_value=False,
+              help='print verbose info')
 def main():
     """
     ximage --version
@@ -27,6 +38,9 @@ def main():
 
 
 @main.command()
+@click.option('-V', '--verbose', is_flag=True, is_eager=True,
+              callback=enable_debug, expose_value=False,
+              help='print verbose info')
 @click.argument('inputimgs', type=click.Path(), nargs=-1, required=True)
 @click.option('--width', default=0, type=int, help="the output image width")
 @click.option('--height', default=0, help="the output image height")
@@ -48,18 +62,22 @@ def resize(inputimgs, width, height, outputdir, outputname):
 
 
 @main.command()
+@click.option('-V', '--verbose', is_flag=True, is_eager=True,
+              callback=enable_debug, expose_value=False,
+              help='print verbose info')
 @click.argument('inputimgs', type=click.Path(), nargs=-1, required=True)
 @click.option('--dpi', default=150, type=int, help="the output image dpi")
 @click.option('--format', default="png", help="the output image format")
 @click.option('--outputdir', default="", help="the image output dir")
 @click.option('--outputname', default="", help="the image output name")
-@click.option('--pdftocairo-fix-encoding', default="gb18030",
+@click.option('--pdftocairo-fix-encoding', default="",
               help="In Windows,the pdftocairo fix encoding")
-@click.option('--overwrite', default=True,
-              help='if output file exist, will be overwrite it?',
-              type=click.BOOL)
+@click.option('--overwrite/--no-overwrite', default=True,
+              help='overwrite the output image file, default is overwrite')
+@click.option('--transparent', is_flag=True,
+              help="pdf convert to png|tiff can turn transparent on")
 def convert(inputimgs, dpi, format, outputdir, outputname,
-            pdftocairo_fix_encoding, overwrite):
+            pdftocairo_fix_encoding, overwrite, transparent=False):
     """
     support image format: \n
       - pillow : png <-> jpg <-> gif <-> eps <-> tiff <-> bmp <-> ppm \n
@@ -70,7 +88,7 @@ def convert(inputimgs, dpi, format, outputdir, outputname,
         outputimg = convert_image(inputimg, outputformat=format, dpi=dpi,
                                   outputdir=outputdir, outputname=outputname,
                                   pdftocairo_fix_encoding=pdftocairo_fix_encoding,
-                                  overwrite=overwrite)
+                                  overwrite=overwrite, transparent=transparent)
 
         if outputimg:
             click.echo("process: {} done.".format(inputimg))

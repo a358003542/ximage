@@ -66,11 +66,11 @@ python系统内的异常
 """
 
 
-
 class ConfigFileNotFoundError(FileNotFoundError):
     """
     配置文件没有找到
     """
+
 
 class RequireArgumentError(Exception):
     """
@@ -78,8 +78,19 @@ class RequireArgumentError(Exception):
     """
 
 
-
 class CommandNotFound(Exception):
     """
     system doesnot have that command
     """
+
+
+class PillowProcessError(Exception):
+    pass
+
+
+class InkscapeProcessError(Exception):
+    pass
+
+
+class PdftocairoProcessError(Exception):
+    pass

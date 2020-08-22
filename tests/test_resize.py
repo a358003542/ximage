@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 # -*-coding:utf-8-*-
 
+import os
+from click.testing import CliRunner
+from ximage.__main__ import main
 
-from ximage.resize_image import resize_image
 
-outimg = resize_image('中文.png', width=30)
+def test_resize_command(tempfolder):
+    runner = CliRunner()
 
-print(outimg)
+    result = runner.invoke(main, ['resize', '--width', '30',
+                                  'test_images/test.png', '-V'])
+
+    assert result.exit_code == 0
+    assert 'done' in result.output

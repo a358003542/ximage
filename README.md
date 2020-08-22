@@ -18,6 +18,7 @@ Usage: ximage resize [OPTIONS] INPUTIMGS...
   resize your image, width height you must give one default is zero.
 
 Options:
+  -V, --verbose      print verbose info
   --width INTEGER    the output image width
   --height INTEGER   the output image height
   --outputdir TEXT   the image output dir
@@ -39,17 +40,28 @@ Usage: ximage convert [OPTIONS] INPUTIMGS...
     - pdftocairo: pdf -> png | jpeg | ps | eps | svg
 
 Options:
+  -V, --verbose                   print verbose info
   --dpi INTEGER                   the output image dpi
   --format TEXT                   the output image format
   --outputdir TEXT                the image output dir
   --outputname TEXT               the image output name
   --pdftocairo-fix-encoding TEXT  In Windows,the pdftocairo fix encoding
-  --overwrite BOOLEAN             if output file exist, will be overwrite it?
+  --overwrite / --no-overwrite    overwrite the output image file, default is
+                                  overwrite
+
+  --transparent                   pdf convert to png|tiff can turn transparent
+                                  on
+
   --help                          Show this message and exit.
 ```
 
 
 ## changelog
+### 0.3.0
+- add tests
+- ximage convert add `--transparent`  option used by pdftocairo.exe
+- code refine. 
+
 ### 0.2.4
 doc refine.
 ### 0.2.4
@@ -57,7 +69,7 @@ fix a bug: convert_image output_dir not return correctly.
 
 ### 0.2.3
 1. fix pdftocairo.exe in windows can not handle the chinese problem. 
-   中文用户经过测试需要加上如下encoding参数：`--pdftocairo-fix-encoding=gb18030` 
+   ~~中文用户经过测试需要加上如下encoding参数：`--pdftocairo-fix-encoding=gb18030`~~ 【现在似乎又没这个问题了，似乎win10更新了能够正确处理中文文件名了】
 
 
 

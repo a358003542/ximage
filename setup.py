@@ -27,7 +27,7 @@ if not shutil.which('pdftocairo'):
 
 setup(
     name='ximage',
-    version='0.2.5',
+    version='0.3.0',
     description='a simple image process tool.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -45,7 +45,6 @@ setup(
     zip_safe=False,
     include_package_data=True,
     data_files=data_files_list,
-    setup_requires=REQUIREMENTS,
     install_requires=REQUIREMENTS,
     entry_points={
         'console_scripts': [
