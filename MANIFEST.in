@@ -1,4 +1,4 @@
 include *.txt
 include *.md
 recursive-include tests *.py
-include bin/pdftocairo.exe
+include Scripts/pdftocairo.exe
